@@ -1,4 +1,10 @@
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-8z#43&f$9v9qqkrcz0514#7-bubr_&0+!@v@62$xd57wq1!k6&'
+from .base import *
+from .base import env
 
-ALLOWED_HOSTS = []
+
+DEBUG = True
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='1234567',)
+
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '127.0.0.1']

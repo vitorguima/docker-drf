@@ -13,6 +13,7 @@ DEBUG = env.bool('DJANGO_DEBUG', False)
 # Application definition
 
 DJANGO_APPS = [
+    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -30,7 +31,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
 ]
 
-LOCAL_APPS = []
+LOCAL_APPS = ['core_apps.common', 'core_apps.users', 'core_apps.profiles']
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
@@ -67,8 +68,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'authors_api.wsgi.application'
 
-DATABASES={"default": env.db("DATABASE_URL")}
-DATABASES=["default"]["ATOMIC_REQUESTS"] = True
+DATABASES = {"default": env.db("DATABASE_URL")}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",
@@ -109,7 +110,7 @@ USE_TZ = True
 
 SITE_ID = 1
 
-ADMIN_URL = "supersecret/"
+ADMIN_URL = "admin/"
 
 ADMINS = [("""Nice to know""", "whatever@gmail.com")]
 
@@ -120,8 +121,18 @@ MANAGERS = ADMINS
 
 STATIC_URL = '/staticfiles/'
 STATIC_ROOT = str(ROOT_DIR / 'staticfiles')
+STATICFILES_DIRS = []
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+
+MEDIA_URL = "/mediafiles/"
+MEDIA_ROOT = str(ROOT_DIR / "mediafiles")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+CORS_URLS_REGEX=r"^/api/.*$"
